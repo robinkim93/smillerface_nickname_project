@@ -10,7 +10,7 @@ import { CfrModule } from './cfr/cfr.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
+        type: 'mariadb',
         url: configService.get('DB_URL'),
         entities: [__dirname + '**/*.entity.{.js,.ts}'],
         synchronize: true,
