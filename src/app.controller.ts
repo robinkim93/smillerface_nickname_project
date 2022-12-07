@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { AppService } from './app.service';
 
 @Controller()
@@ -8,5 +9,11 @@ export class AppController {
   @Get()
   get() {
     return this.appService.get();
+  }
+
+  @Post()
+  getFaceData(@Req() req: Request, @Body() formData: string) {
+    console.log(req);
+    return this.appService.getFaceData(formData);
   }
 }
