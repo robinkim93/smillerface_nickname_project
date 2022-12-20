@@ -31,7 +31,7 @@ export class AppService {
       this.httpService
         .post(this.URL, form, config)
         .pipe(map((res) => res.data)),
-    ).catch((err) => console.log(err));
+    );
 
     // console.log(data);
     return data;
