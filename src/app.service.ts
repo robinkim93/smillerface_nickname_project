@@ -1,38 +1,39 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
-import { map, firstValueFrom, lastValueFrom } from 'rxjs';
+import { Injectable, Headers } from '@nestjs/common';
+import axios, { AxiosResponse } from 'axios';
+import { map, firstValueFrom, lastValueFrom, Observable } from 'rxjs';
+import * as fs from 'fs';
+import path from 'path';
 
 @Injectable()
 export class AppService {
+  private readonly URL: string =
+    'https://openapi.naver.com/v1/vision/celebrity';
+  private readonly API_KEY = {
+    'X-Naver-Client-Id': 'fcb0zl9r9nENOW9M1vl_',
+    'X-Naver-Client-Secret': 'Rg2a_dNj7B',
+  };
+
   constructor(private readonly httpService: HttpService) {}
-  get() {
-    return '졸지~';
-  }
 
   async getFaceData(formData: string) {
-    const headersRequest = {
-      headers: {
-        'X-Naver-Client-Id': 'fcb0zl9r9nENOW9M1vl_',
-        'X-Naver-Client-Secret': 'Rg2a_dNj7B',
-      },
+    const foorm = new FormData();
+
+    const form = {
+      image: './KakaoTalk_20220418_213157029.jpg',
     };
 
-    // const data = await lastValueFrom(
-    //   this.httpService
-    //     .post('https://openapi.naver.com/v1/vision/celebrity', {
-    //       headers: headersRequest,
-    //     })
-    //     .pipe(map((res) => res.data)),
-    // ).catch((err) => console.log(err));
-    // console.log(formData);
-    axios.defaults.headers.post['X-Naver-Client-Id'] = 'fcb0zl9r9nENOW9M1vl_';
-    axios.defaults.headers.post['X-Naver-Client-Secret'] = 'Rg2a_dNj7B';
+    const config = {
+      headers: { ...this.API_KEY, 'content-type': 'multipart/form-data' },
+    };
 
-    const data = await axios
-      .post('https://openapi.naver.com/v1/vision/celebrity', { body: formData })
-      .catch((err) => console.error(err));
+    const data = await lastValueFrom(
+      this.httpService
+        .post(this.URL, form, config)
+        .pipe(map((res) => res.data)),
+    ).catch((err) => console.log(err));
 
+    // console.log(data);
     return data;
   }
 }
