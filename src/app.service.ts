@@ -24,12 +24,12 @@ export class AppService {
     };
 
     const config = {
-      headers: { ...this.API_KEY, 'content-type': 'multipart/form-data' },
+      headers: { ...this.API_KEY, 'content-type': formData },
     };
 
     const data = await lastValueFrom(
       this.httpService
-        .post(this.URL, form, config)
+        .post(this.URL, formData, config)
         .pipe(map((res) => res.data)),
     );
 
