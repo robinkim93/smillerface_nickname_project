@@ -8,7 +8,7 @@ export class AppController {
 
   @Post()
   getFaceData(@Req() req: Request, @Headers('content-type') formData: string) {
-    console.log(req, '---------', req.header);
+    console.log('---------', req.header, '-------', req.accepts);
     return this.appService.getFaceData(formData);
   }
 }
