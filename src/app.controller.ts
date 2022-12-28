@@ -20,13 +20,10 @@ export class AppController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  getFaceData(
-    @Req() req,
-    @Headers('content-type') formData: string,
-    @Body() body,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    // console.log(req);
-    return this.appService.getFaceData(formData);
+  getFaceData(@Req() req, @UploadedFile() image: Express.Multer.File) {
+    const buffer = image.buffer.toString();
+    const original = image.originalname;
+    // console.log(image);
+    return this.appService.getFaceData(buffer, original);
   }
 }
