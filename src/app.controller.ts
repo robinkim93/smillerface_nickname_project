@@ -23,7 +23,10 @@ export class AppController {
   getFaceData(@Req() req, @UploadedFile() image: Express.Multer.File) {
     const buffer = image.buffer.toString();
     const original = image.originalname;
+    const file = req.file;
+    // console.log(typeof req.file);
+
     // console.log(image);
-    return this.appService.getFaceData(buffer, original);
+    return this.appService.getFaceData(file, image);
   }
 }

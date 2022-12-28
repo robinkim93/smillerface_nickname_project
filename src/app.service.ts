@@ -4,7 +4,6 @@ import axios, { Axios, AxiosResponse, toFormData } from 'axios';
 import { map, firstValueFrom, lastValueFrom, Observable } from 'rxjs';
 import * as fs from 'fs';
 import path from 'path';
-import { Blob } from 'buffer';
 import { Binary } from 'typeorm';
 import * as FormData from 'form-data';
 
@@ -19,25 +18,30 @@ export class AppService {
 
   constructor(private readonly httpService: HttpService) {}
 
-  async getFaceData(buffer: string | Blob, original: string) {
+  async getFaceData(file, image) {
     const formData = new FormData();
-
-    formData.append('image', buffer, original);
-
-    console.log(typeof formData);
-
+    const buffer: string = image.buffer;
+    const filename: string = image.originalname;
+    formData.append('image', buffer, filename);
+    // console.log(formData);
     const config = {
       headers: {
         ...this.API_KEY,
         'content-type': 'multipart/form-data',
       },
     };
+    // const data = await lastValueFrom(
+    //   this.httpService
+    //     .post(this.URL, formData, config)
+    //     .pipe(map((res) => res.data)),
+    // )
+    //   .then((res) => JSON.stringify(res))
+    //   .catch((err) => console.log(err));
 
     const data = await axios
-      .post(this.URL, formData.getHeaders(), config)
-      .then((res) => console.log(res));
-    // .catch((err) => console.log(err));
-
+      .post(this.URL, formData, config)
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
     return data;
   }
 }
