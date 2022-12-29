@@ -1,1 +1,1 @@
-web: npm run herokustart
+web: node dist/src/main.js
