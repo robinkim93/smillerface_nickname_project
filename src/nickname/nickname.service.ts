@@ -33,14 +33,15 @@ export class NicknameService {
 
     const config = {
       headers: {
-        ...this.API_KEY,
+        'X-Naver-Client-Id': 'fcb0zl9r9nENOW9M1vl_',
+        'X-Naver-Client-Secret': 'Rg2a_dNj7B',
         'content-type': 'multipart/form-data',
       },
     };
 
     const data: NicknameDto = await lastValueFrom(
       this.httpService
-        .post(this.URL, formData, config)
+        .post('https://openapi.naver.com/v1/vision/celebrity', formData, config)
         .pipe(map((res) => res.data)),
     ).catch((err) => console.log(err));
 
