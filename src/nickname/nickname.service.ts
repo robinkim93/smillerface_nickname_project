@@ -44,17 +44,17 @@ export class NicknameService {
         .pipe(map((res) => res.data)),
     ).catch((err) => console.log(err));
 
-    const nickNameData = await this.nicknameRepository
-      .createQueryBuilder()
-      .select()
-      .orderBy('RAND()')
-      .getOne();
+    // const nickNameData = await this.nicknameRepository
+    //   .createQueryBuilder()
+    //   .select()
+    //   .orderBy('RAND()')
+    //   .getOne();
 
-    const nickName = nickNameData.nickname;
-    const celebrityName = data.faces[0].celebrity.value;
+    // const nickName = nickNameData.nickname;
+    // const celebrityName = data.faces[0].celebrity.value;
 
-    const nickNamePlusCelebrityName = `${nickName} ${celebrityName}`;
+    // const nickNamePlusCelebrityName = `${nickName} ${celebrityName}`;
 
-    return nickNamePlusCelebrityName;
+    return data;
   }
 }
