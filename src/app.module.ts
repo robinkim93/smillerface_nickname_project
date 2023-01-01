@@ -7,7 +7,6 @@ import { MorganInterceptor, MorganModule } from 'nest-morgan';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { typeORMConfig } from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
-import { DataSource } from 'typeorm';
 import { Nicknames } from './app.entities';
 
 @Module({

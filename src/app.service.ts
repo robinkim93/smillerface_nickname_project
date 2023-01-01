@@ -55,6 +55,6 @@ export class AppService {
 
     const nickNamePlusCelebrityName = `${nickName} ${celebrityName}`;
 
-    return data;
+    return nickNamePlusCelebrityName;
   }
 }
