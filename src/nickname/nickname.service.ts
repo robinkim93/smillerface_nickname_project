@@ -41,7 +41,7 @@ export class NicknameService {
 
     const data: NicknameDto = await lastValueFrom(
       this.httpService
-        .post(this.URL, formData, config)
+        .post(process.env.NAVER_URL, formData, config)
         .pipe(map((res) => res.data)),
     ).catch((err) => console.log(err));
 
