@@ -10,18 +10,18 @@ import { NicknameDto } from './nickname.dto';
 
 @Injectable()
 export class NicknameService {
-  private readonly URL: string = this.configService.get('NAVER_URL');
-  private readonly API_KEY = {
-    'X-Naver-Client-Id': this.configService.get('SECRET_ID'),
-    'X-Naver-Client-Secret': this.configService.get('SECRET_KEY'),
-  };
-
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
     @InjectRepository(Nicknames)
     private readonly nicknameRepository: Repository<Nicknames>,
   ) {}
+
+  private readonly URL: string = this.configService.get('NAVER_URL');
+  private readonly API_KEY = {
+    'X-Naver-Client-Id': this.configService.get('SECRET_ID'),
+    'X-Naver-Client-Secret': this.configService.get('SECRET_KEY'),
+  };
 
   async getFaceData(image) {
     const formData = new FormData();
@@ -41,7 +41,7 @@ export class NicknameService {
 
     const data: NicknameDto = await lastValueFrom(
       this.httpService
-        .post('https://openapi.naver.com/v1/vision/celebrity', formData, config)
+        .post(this.URL, formData, config)
         .pipe(map((res) => res.data)),
     ).catch((err) => console.log(err));
 
