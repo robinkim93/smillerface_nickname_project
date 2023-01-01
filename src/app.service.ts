@@ -1,21 +1,30 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
 import * as FormData from 'form-data';
+import { ConfigService } from '@nestjs/config';
+import { lastValueFrom, map } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Nicknames } from './app.entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AppService {
-  private readonly URL: string =
-    'https://openapi.naver.com/v1/vision/celebrity';
+  private readonly URL: string = this.configService.get('NAVER_URL');
   private readonly API_KEY = {
-    'X-Naver-Client-Id': 'fcb0zl9r9nENOW9M1vl_',
-    'X-Naver-Client-Secret': 'Rg2a_dNj7B',
+    'X-Naver-Client-Id': this.configService.get('SECRET_ID'),
+    'X-Naver-Client-Secret': this.configService.get('SECRET_KEY'),
   };
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+    @InjectRepository(Nicknames)
+    private readonly nicknameRepository: Repository<Nicknames>,
+  ) {}
 
   async getFaceData(image) {
     const formData = new FormData();
+
     const buffer: string = image.buffer;
     const filename: string = image.originalname;
 
@@ -28,10 +37,21 @@ export class AppService {
       },
     };
 
-    const data = await axios
-      .post(this.URL, formData, config)
-      .then((res) => res.data)
-      .catch((err) => console.log(err));
+    const data = await lastValueFrom(
+      this.httpService
+        .post(this.URL, formData, config)
+        .pipe(map((res) => res.data)),
+    ).catch((err) => console.log(err));
+
+    const nickNameData = await this.nicknameRepository
+      .createQueryBuilder('nicknames')
+      .select()
+      .getOne();
+
+    const nickName = nickNameData.nickname;
+
+    data.faces[0].celebrity.value = `${nickName} ${data.faces[0].celebrity.value}`;
+
     return data;
   }
 }
