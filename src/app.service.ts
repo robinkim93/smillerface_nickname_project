@@ -40,7 +40,7 @@ export class AppService {
 
     const data: FaceDataDto = await lastValueFrom(
       this.httpService
-        .post(this.URL, formData, config)
+        .post('https://openapi.naver.com/v1/vision/celebrity', formData, config)
         .pipe(map((res) => res.data)),
     ).catch((err) => console.log(err));
 
