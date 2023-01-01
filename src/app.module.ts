@@ -1,13 +1,12 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HttpModule } from '@nestjs/axios';
 import { MorganInterceptor, MorganModule } from 'nest-morgan';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { typeORMConfig } from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
-import { Nicknames } from './app.entities';
+import { NicknameModule } from './nickname/nickname.module';
+import { Nicknames } from './nickname/nickname.entities';
 
 @Module({
   imports: [
@@ -16,10 +15,10 @@ import { Nicknames } from './app.entities';
     HttpModule,
     MorganModule,
     ConfigModule,
+    NicknameModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     Logger,
     { provide: APP_INTERCEPTOR, useClass: MorganInterceptor('dev') },
   ],

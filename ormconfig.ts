@@ -1,7 +1,7 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
-import { Nicknames } from 'src/app.entities';
 import { DataSource } from 'typeorm';
+import { Nicknames } from 'src/nickname/nickname.entities';
 
 export const typeORMConfig: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
