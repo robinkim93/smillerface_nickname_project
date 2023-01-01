@@ -10,7 +10,7 @@ import { FaceDataDto } from './dto/facedata.dto';
 
 @Injectable()
 export class AppService {
-  private readonly URL: string = this.configService.get('NAVER_URL');
+  private readonly URL = this.configService.get('NAVER_URL');
   private readonly API_KEY = {
     'X-Naver-Client-Id': this.configService.get('SECRET_ID'),
     'X-Naver-Client-Secret': this.configService.get('SECRET_KEY'),
