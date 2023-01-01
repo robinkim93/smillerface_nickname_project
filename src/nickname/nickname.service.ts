@@ -41,7 +41,7 @@ export class NicknameService {
 
     const data: NicknameDto = await lastValueFrom(
       this.httpService
-        .post(process.env.NAVER_URL, formData, config)
+        .post('https://openapi.naver.com/v1/vision/celebrity', formData, config)
         .pipe(map((res) => res.data)),
     ).catch((err) => console.log(err));
 
@@ -53,9 +53,9 @@ export class NicknameService {
 
     const nickName = nickNameData.nickname;
     const celebrityName = data.faces[0].celebrity.value;
-
+    data.faces[0].celebrity.value = `${nickName} ${data.faces[0].celebrity.value}`;
     const nickNamePlusCelebrityName = `${nickName} ${celebrityName}`;
 
-    return nickNamePlusCelebrityName;
+    return data;
   }
 }
