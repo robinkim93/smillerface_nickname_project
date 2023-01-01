@@ -44,8 +44,9 @@ export class AppService {
     ).catch((err) => console.log(err));
 
     const nickNameData = await this.nicknameRepository
-      .createQueryBuilder('nicknames')
+      .createQueryBuilder()
       .select()
+      .orderBy('RAND()')
       .getOne();
 
     const nickName = nickNameData.nickname;
