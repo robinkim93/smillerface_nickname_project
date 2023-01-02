@@ -53,8 +53,8 @@ export class NicknameService {
 
     const nickName = nickNameData.nickname;
     const celebrityName = data.faces[0].celebrity.value;
-    data.faces[0].celebrity.value = `${nickName} ${data.faces[0].celebrity.value}`;
-    const nickNamePlusCelebrityName = `${nickName} ${celebrityName}`;
+
+    data.faces[0].celebrity.value = `${nickName} ${celebrityName}`;
 
     return data;
   }
