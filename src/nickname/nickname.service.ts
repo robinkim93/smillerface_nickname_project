@@ -27,14 +27,15 @@ export class NicknameService {
     const formData = new FormData();
 
     const buffer: string = image.buffer;
+
     const filename: string = image.originalname;
 
     formData.append('image', buffer, filename);
 
     const config = {
       headers: {
-        'X-Naver-Client-Id': 'fcb0zl9r9nENOW9M1vl_',
-        'X-Naver-Client-Secret': 'Rg2a_dNj7B',
+        'X-Naver-Client-Id': this.API_KEY['X-Naver-Client-Id'],
+        'X-Naver-Client-Secret': this.API_KEY['X-Naver-Client-Secret'],
         'content-type': 'multipart/form-data',
       },
     };
